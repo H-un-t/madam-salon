@@ -57,7 +57,7 @@ const Header = () => {
         </div>
       </header>
 
-      {/* Модальное окно записи для клиента */}
+      
       {showBookingModal && (
         <ClientAppointmentModal 
           isOpen={showBookingModal}

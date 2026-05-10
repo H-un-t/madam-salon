@@ -3,11 +3,11 @@ import { Helmet } from 'react-helmet-async';
 
 const Agreement = () => {
   return (
-    <>
+    <div className="agreement-page">
       <Helmet>
         <title>Пользовательское соглашение | Салон красоты Мадам</title>
       </Helmet>
-      <div className="container" style={{ padding: '40px 0', maxWidth: '900px', margin: '0 auto' }}>
+      <div className="container" style={{ maxWidth: '900px', margin: '0 auto', padding: '40px 0' }}>
         <h1 style={{ marginBottom: '30px', color: 'var(--red)' }}>Пользовательское соглашение</h1>
         
         <section style={{ marginBottom: '30px' }}>
@@ -20,7 +20,6 @@ const Agreement = () => {
           <h2>2. Согласие на обработку персональных данных</h2>
           <p>Пользователь, заполняя форму регистрации, даёт своё согласие Салону на обработку следующих персональных данных: имя, фамилия, email, номер телефона, а также иных данных, добровольно предоставленных Пользователем.</p>
           <p>Цели обработки персональных данных: идентификация пользователя, связь с пользователем, предоставление услуг, статистические и аналитические исследования.</p>
-          
         </section>
 
         <section style={{ marginBottom: '30px' }}>
@@ -48,7 +47,7 @@ const Agreement = () => {
           <p>05 мая 2026 года</p>
         </section>
       </div>
-    </>
+    </div>
   );
 };
 

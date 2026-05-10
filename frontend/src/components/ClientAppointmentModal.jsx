@@ -37,7 +37,7 @@ const ClientAppointmentModal = ({ isOpen, onClose, userId }) => {
     }
   }, [isOpen]);
 
-  // Фильтр мастеров по салону
+  
   useEffect(() => {
     if (form.salonId && masters.length) {
       const filtered = masters.filter(m => m.salonId == form.salonId);
@@ -50,7 +50,7 @@ const ClientAppointmentModal = ({ isOpen, onClose, userId }) => {
     }
   }, [form.salonId, masters]);
 
-  // Фильтр услуг по категории мастера
+  
   useEffect(() => {
     if (form.masterId && services.length) {
       const selectedMaster = masters.find(m => m.id == form.masterId);
@@ -66,7 +66,7 @@ const ClientAppointmentModal = ({ isOpen, onClose, userId }) => {
     }
   }, [form.masterId, masters, services]);
 
-  // Получение свободных слотов
+  
   useEffect(() => {
     const fetchSlots = async () => {
       if (form.masterId && form.date && form.serviceId) {

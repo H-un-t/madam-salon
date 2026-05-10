@@ -4,14 +4,14 @@ const bcrypt = require('bcryptjs');
 const db = new sqlite3.Database('./salon.db');
 
 db.serialize(() => {
-  // Таблица салонов
+  
   db.run(`CREATE TABLE IF NOT EXISTS salons (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     address TEXT NOT NULL
   )`);
 
-  // Пользователи
+  
   db.run(`CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     firstName TEXT NOT NULL,
@@ -22,7 +22,7 @@ db.serialize(() => {
     role TEXT DEFAULT 'user'
   )`);
 
-  // Услуги
+  
   db.run(`CREATE TABLE IF NOT EXISTS services (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
@@ -31,7 +31,7 @@ db.serialize(() => {
     duration INTEGER DEFAULT 60
   )`);
 
-  // Мастера (добавлено salonId)
+  
   db.run(`CREATE TABLE IF NOT EXISTS masters (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
@@ -42,7 +42,7 @@ db.serialize(() => {
     FOREIGN KEY(salonId) REFERENCES salons(id)
   )`);
 
-  // Записи (добавим salonId для удобства, хотя можно получить через мастера)
+  
   db.run(`CREATE TABLE IF NOT EXISTS appointments (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     userId INTEGER,
@@ -54,7 +54,7 @@ db.serialize(() => {
     status TEXT DEFAULT 'pending'
   )`);
 
-  // Добавляем салоны
+  
   db.get(`SELECT COUNT(*) as count FROM salons`, (err, row) => {
     if (row.count === 0) {
       db.run(`INSERT INTO salons (name, address) VALUES (?, ?)`, ['Салон на Еременко', 'пр. Еременко 90/27']);
@@ -62,7 +62,7 @@ db.serialize(() => {
     }
   });
 
-  // Админ
+  
   db.get(`SELECT * FROM users WHERE email = 'admin@madam.ru'`, (err, row) => {
     if (!row) {
       const hashed = bcrypt.hashSync('admin123', 10);
@@ -71,7 +71,7 @@ db.serialize(() => {
     }
   });
 
-  // Услуги
+  
   db.get(`SELECT COUNT(*) as count FROM services`, (err, row) => {
     if (row.count === 0) {
       const services = [
@@ -91,7 +91,7 @@ db.serialize(() => {
     }
   });
 
-  // Мастера с привязкой к салонам
+  
   db.get(`SELECT COUNT(*) as count FROM masters`, (err, row) => {
     if (row.count === 0) {
       const masters = [

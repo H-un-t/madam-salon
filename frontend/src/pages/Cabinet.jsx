@@ -109,7 +109,7 @@ const Cabinet = () => {
   return (
     <div className="container" style={{ padding: '40px 0' }}>
       <div className="cabinet-wrapper">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
+        <div className='cabinet-wrapper-hero' style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
           <h1>Личный кабинет</h1>
           {userRole === 'admin' && (
             <Link to="/admin" className="btn">Админ панель</Link>

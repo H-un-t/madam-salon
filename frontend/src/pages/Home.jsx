@@ -11,7 +11,7 @@ const Home = () => {
         <meta property="og:image" content="/images/hero.jpg" />
       </Helmet>
 
-      {/* Hero с картинкой и наложением */}
+      
       <div style={{
         backgroundImage: 'url(/images/hero-bg.jpg)',
         backgroundSize: 'cover',
@@ -39,7 +39,7 @@ const Home = () => {
       </div>
 
       <div className="container">
-        {/* Блоки Наши салоны и Время работы */}
+        
         <div style={{
           display: 'flex',
           flexWrap: 'wrap',
@@ -134,7 +134,7 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Давайте знакомиться! с двумя картинками */}
+        
         <div style={{
           margin: '80px 0',
           background: 'linear-gradient(135deg, #ebebebff 0%, #e9ecef 100%)',

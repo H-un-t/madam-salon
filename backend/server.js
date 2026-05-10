@@ -12,7 +12,7 @@ const JWT_SECRET = 'madam_salon_secret_key_2024';
 app.use(cors());
 app.use(express.json());
 
-// ========== Middleware ==========
+
 const auth = (req, res, next) => {
   const token = req.headers.authorization?.split(' ')[1];
   if (!token) return res.status(401).json({ error: 'Нет токена' });
@@ -31,7 +31,7 @@ const adminOnly = (req, res, next) => {
   next();
 };
 
-// ========== Регистрация ==========
+
 app.post('/api/register', [
   body('firstName').notEmpty(), body('lastName').notEmpty(),
   body('email').isEmail(), body('phone').notEmpty(),
@@ -65,7 +65,7 @@ app.post('/api/register', [
   }
 });
 
-// ========== Логин ==========
+
 app.post('/api/login', (req, res) => {
   const { email, password } = req.body;
   db.get(`SELECT * FROM users WHERE email = ?`, [email], (err, user) => {
@@ -77,7 +77,7 @@ app.post('/api/login', (req, res) => {
   });
 });
 
-// ========== Получить данные пользователя ==========
+
 app.get('/api/user', auth, (req, res) => {
   db.get(`SELECT id, firstName, lastName, email, phone, role FROM users WHERE id = ?`, [req.userId], (err, user) => {
     if (err || !user) return res.status(404).json({ error: 'Пользователь не найден' });
@@ -85,7 +85,7 @@ app.get('/api/user', auth, (req, res) => {
   });
 });
 
-// ========== Обновить данные пользователя ==========
+
 app.put('/api/user', auth, async (req, res) => {
   const { firstName, lastName, phone } = req.body;
   if (phone) {
@@ -101,7 +101,6 @@ app.put('/api/user', auth, async (req, res) => {
     });
 });
 
-// ========== Смена email ==========
 app.put('/api/user/email', auth, async (req, res) => {
   const { email } = req.body;
   if (!email) return res.status(400).json({ error: 'Email обязателен' });
@@ -115,7 +114,7 @@ app.put('/api/user/email', auth, async (req, res) => {
   });
 });
 
-// ========== Смена пароля ==========
+
 app.put('/api/user/password', auth, async (req, res) => {
   const { currentPassword, newPassword } = req.body;
   if (!currentPassword || !newPassword) return res.status(400).json({ error: 'Текущий и новый пароль обязательны' });
@@ -135,7 +134,7 @@ app.put('/api/user/password', auth, async (req, res) => {
   }
 });
 
-// ========== Управление пользователями (админ) ==========
+
 app.get('/api/admin/users', auth, adminOnly, (req, res) => {
   db.all(`SELECT id, firstName, lastName, email, phone, role FROM users`, (err, users) => res.json(users));
 });
@@ -198,7 +197,7 @@ app.delete('/api/admin/users/:id', auth, adminOnly, (req, res) => {
   });
 });
 
-// ========== Услуги (CRUD) ==========
+
 app.get('/api/services', (req, res) => {
   db.all(`SELECT * FROM services`, (err, rows) => res.json(rows));
 });
@@ -229,7 +228,7 @@ app.delete('/api/admin/services/:id', auth, adminOnly, (req, res) => {
   });
 });
 
-// ========== Мастера (CRUD) ==========
+
 app.get('/api/masters', (req, res) => {
   db.all(`SELECT * FROM masters`, (err, rows) => res.json(rows));
 });
@@ -260,7 +259,7 @@ app.delete('/api/admin/masters/:id', auth, adminOnly, (req, res) => {
   });
 });
 
-// ========== Салоны ==========
+
 app.get('/api/salons', (req, res) => {
   db.all(`SELECT id, name, address FROM salons`, (err, rows) => {
     if (err) return res.status(500).json({ error: err.message });
@@ -268,7 +267,7 @@ app.get('/api/salons', (req, res) => {
   });
 });
 
-// ========== ПОЛУЧЕНИЕ СВОБОДНЫХ СЛОТОВ ==========
+
 app.get('/api/appointments/free-slots', auth, async (req, res) => {
   const { masterId, date, serviceId } = req.query;
   if (!masterId || !date || !serviceId) {
@@ -332,7 +331,7 @@ app.get('/api/appointments/free-slots', auth, async (req, res) => {
   }
 });
 
-// ========== Получение расписания мастера на период (для админа) ==========
+
 app.get('/api/appointments/schedule', auth, adminOnly, (req, res) => {
   const { masterId, startDate, endDate } = req.query;
   if (!masterId || !startDate || !endDate) {
@@ -349,7 +348,7 @@ app.get('/api/appointments/schedule', auth, adminOnly, (req, res) => {
     });
 });
 
-// ========== Получение записей ==========
+
 app.get('/api/appointments', auth, (req, res) => {
   if (req.userRole === 'admin') {
     db.all(`SELECT a.*, u.firstName, u.lastName, s.name as serviceName, m.name as masterName, sal.name as salonName 
@@ -368,7 +367,7 @@ app.get('/api/appointments', auth, (req, res) => {
   }
 });
 
-// ========== Создание записи (админ может указать userId, клиент – своего) ==========
+
 app.post('/api/appointments', auth, async (req, res) => {
   let { serviceId, masterId, date, time, userId, salonId } = req.body;
   if (!userId) userId = req.userId;
@@ -416,7 +415,7 @@ app.post('/api/appointments', auth, async (req, res) => {
     });
 });
 
-// ========== Обновление записи (админ) ==========
+
 app.put('/api/admin/appointments/:id', auth, adminOnly, async (req, res) => {
   const { userId, serviceId, masterId, date, time, status, salonId } = req.body;
   const service = await new Promise((resolve) => {
@@ -455,7 +454,7 @@ app.put('/api/admin/appointments/:id', auth, adminOnly, async (req, res) => {
     });
 });
 
-// ========== Отмена записи клиентом ==========
+
 app.put('/api/appointments/:id/cancel', auth, (req, res) => {
   const { id } = req.params;
   db.get(`SELECT userId FROM appointments WHERE id = ?`, [id], (err, row) => {
@@ -468,7 +467,7 @@ app.put('/api/appointments/:id/cancel', auth, (req, res) => {
   });
 });
 
-// ========== Удаление записи (админ) ==========
+
 app.delete('/api/admin/appointments/:id', auth, adminOnly, (req, res) => {
   db.run(`DELETE FROM appointments WHERE id=?`, [req.params.id], (err) => {
     if (err) return res.status(500).json({ error: 'Ошибка удаления' });
@@ -476,5 +475,5 @@ app.delete('/api/admin/appointments/:id', auth, adminOnly, (req, res) => {
   });
 });
 
-// ========== Запуск сервера ==========
+
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

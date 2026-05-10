@@ -33,20 +33,20 @@ const Register = () => {
 
     setLoading(true);
     try {
-      // 1. Регистрация
+      
       await api.post('/register', form);
       
-      // 2. Автоматический вход
+      
       const loginRes = await api.post('/login', {
         email: form.email,
         password: form.password
       });
       
-      // 3. Сохраняем токен и данные пользователя
+      
       localStorage.setItem('token', loginRes.data.token);
       localStorage.setItem('user', JSON.stringify(loginRes.data.user));
       
-      // 4. Переходим в личный кабинет
+      
       navigate('/cabinet');
     } catch (err) {
       const serverError = err.response?.data?.error || err.response?.data?.message;

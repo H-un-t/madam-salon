@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import api from '../api';
 
 const AppointmentModal = ({ isOpen, onClose, onSave, services, masters, appointment, prefillData }) => {
-  // Функция для начального состояния формы
+  
   const getInitialForm = () => {
     if (appointment) {
       return {
@@ -45,18 +45,18 @@ const AppointmentModal = ({ isOpen, onClose, onSave, services, masters, appointm
   const [users, setUsers] = useState([]);
   const [loadingSlots, setLoadingSlots] = useState(false);
 
-  // Загружаем салоны и пользователей
+  
   useEffect(() => {
     api.get('/salons').then(res => setSalons(res.data));
     api.get('/admin/users').then(res => setUsers(res.data));
   }, []);
 
-  // Сбрасываем форму при изменении appointment/prefillData или открытии модалки
+  
   useEffect(() => {
     setForm(getInitialForm());
   }, [appointment, prefillData, isOpen]);
 
-  // Фильтр мастеров по салону
+  
   useEffect(() => {
     if (form.salonId && masters.length) {
       const filtered = masters.filter(m => m.salonId == form.salonId);
@@ -69,7 +69,7 @@ const AppointmentModal = ({ isOpen, onClose, onSave, services, masters, appointm
     }
   }, [form.salonId, masters]);
 
-  // Фильтр услуг по категории мастера
+  
   useEffect(() => {
     if (form.masterId && services.length) {
       const selectedMaster = masters.find(m => m.id == form.masterId);
@@ -85,7 +85,7 @@ const AppointmentModal = ({ isOpen, onClose, onSave, services, masters, appointm
     }
   }, [form.masterId, masters, services]);
 
-  // Получение свободных слотов
+  
   useEffect(() => {
     const fetchSlots = async () => {
       if (form.masterId && form.date && form.serviceId && form.salonId) {
@@ -93,14 +93,14 @@ const AppointmentModal = ({ isOpen, onClose, onSave, services, masters, appointm
         try {
           const res = await api.get(`/appointments/free-slots?masterId=${form.masterId}&date=${form.date}&serviceId=${form.serviceId}`);
           let slots = res.data.slots || [];
-          // Если редактируем запись и её текущее время не входит в список свободных, добавляем его
+          
           if (appointment && appointment.time && !slots.includes(appointment.time)) {
             slots = [...slots, appointment.time].sort();
           }
           setFreeSlots(slots);
-          // Если текущее время не входит в слоты и это не время редактирования, сбросить
+          
           if (appointment && appointment.time === form.time) {
-            // оставляем как есть
+            
           } else if (!slots.includes(form.time)) {
             setForm(prev => ({ ...prev, time: '' }));
           }

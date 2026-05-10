@@ -31,7 +31,7 @@ const ScheduleView = ({ masters, services, users, onRefresh, onOpenModal, refres
     }
   }, [selectedSalon, masters]);
 
-  // Загрузка расписания
+  
   useEffect(() => {
     if (!selectedMaster) return;
     const fetchSchedule = async () => {
@@ -43,7 +43,7 @@ const ScheduleView = ({ masters, services, users, onRefresh, onOpenModal, refres
       try {
         const res = await api.get(`/appointments/schedule?masterId=${selectedMaster}&startDate=${startDate}&endDate=${endDateStr}`);
         const grouped = {};
-        // Группируем по датам, сохраняем также длительность услуги
+        
         res.data.forEach(app => {
           if (!grouped[app.date]) grouped[app.date] = [];
           grouped[app.date].push({
@@ -94,12 +94,12 @@ const ScheduleView = ({ masters, services, users, onRefresh, onOpenModal, refres
     return slots;
   };
 
-  // Функция проверки занятости слота с учётом длительности записей
+  
   const isSlotBusy = (date, time) => {
     const appointmentsOnDate = scheduleData[date] || [];
     const [slotHour, slotMin] = time.split(':').map(Number);
     const slotStart = slotHour * 60 + slotMin;
-    // Для каждой существующей записи проверяем, попадает ли начало нашего слота в её интервал
+    
     return appointmentsOnDate.some(app => {
       const [appHour, appMin] = app.time.split(':').map(Number);
       const appStart = appHour * 60 + appMin;
@@ -109,7 +109,7 @@ const ScheduleView = ({ masters, services, users, onRefresh, onOpenModal, refres
   };
 
   const getAppointmentForSlot = (date, time) => {
-    // Возвращает запись, если время точно совпадает с началом (для отображения деталей)
+    
     const appointmentsOnDate = scheduleData[date] || [];
     return appointmentsOnDate.find(app => app.time === time);
   };

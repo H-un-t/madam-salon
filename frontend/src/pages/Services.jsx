@@ -21,12 +21,12 @@ const Services = () => {
     }
   };
 
-  // Функция для фильтрации по категориям
+  
   const getServicesByCategory = (category) => {
     return services.filter(service => service.category === category);
   };
 
-  // Русские названия категорий
+  
   const categoryNames = {
     hairdresser: 'Услуги парикмахера',
     manicure: 'Услуги мастера маникюра и педикюра',

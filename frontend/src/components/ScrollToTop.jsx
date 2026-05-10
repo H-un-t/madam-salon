@@ -8,7 +8,7 @@ const ScrollToTop = () => {
     if (!hash) {
       window.scrollTo(0, 0);
     } else {
-      // Если есть хеш, прокручиваем к элементу после небольшой задержки
+
       setTimeout(() => {
         const element = document.getElementById(hash.substring(1));
         if (element) {

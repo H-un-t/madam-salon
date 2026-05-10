@@ -39,7 +39,7 @@ const Portfolio = () => {
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
-          arrows: false,   // на мобильных отключаем стрелки, остаются только точки
+          arrows: false,   
           dots: true
         }
       }

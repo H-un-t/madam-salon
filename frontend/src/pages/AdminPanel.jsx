@@ -154,7 +154,7 @@ const AdminPanel = () => {
 
   const currentUserId = JSON.parse(localStorage.getItem('user') || '{}').id;
 
-  // Форма редактирования пользователя с обработкой ошибок
+  
   const UserEditForm = ({ user, onSave, onCancel }) => {
     const [firstName, setFirstName] = useState(user.firstName);
     const [lastName, setLastName] = useState(user.lastName);

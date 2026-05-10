@@ -1,18 +1,15 @@
-@media (max-width: 768px) {
-  .contacts-card iframe {
-    height: 250px;
-  }
-}
-
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 80px; /* высота вашего хедера */
-}
-
+/* ======================================================
+   ГЛОБАЛЬНЫЕ СТИЛИ И ПЕРЕМЕННЫЕ
+   ====================================================== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* отступ для фиксированного хедера */
 }
 
 body {
@@ -21,7 +18,6 @@ body {
   color: #1a1a1a;
 }
 
-/* Цветовая схема: серый, красный (#b31b1b), чёрный */
 :root {
   --red: #b31b1b;
   --dark-red: #8b0000;
@@ -42,7 +38,9 @@ a {
   padding: 0 20px;
 }
 
-/* Кнопки */
+/* ======================================================
+   КНОПКИ
+   ====================================================== */
 .btn {
   display: inline-block;
   background: var(--red);
@@ -58,7 +56,9 @@ a {
   background: var(--dark-red);
 }
 
-/* Header */
+/* ======================================================
+   HEADER
+   ====================================================== */
 .header {
   background: white;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -73,24 +73,13 @@ a {
   flex-wrap: wrap;
   padding: 15px 20px;
 }
-.logo {
-  font-size: 28px;
-  font-weight: bold;
-  letter-spacing: 2px;
-}
-.logo span {
-  color: var(--red);
-}
-.menu-icon {
-  display: none;
-  flex-direction: column;
-  cursor: pointer;
-}
 
-/* Логотип */
 .logo {
   display: flex;
   align-items: center;
+  font-size: 28px;
+  font-weight: bold;
+  letter-spacing: 2px;
 }
 .logo-img {
   height: 50px;
@@ -98,7 +87,34 @@ a {
   max-width: 150px;
   object-fit: contain;
 }
+.logo span {
+  color: var(--red);
+}
 
+.menu-icon {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+}
+.menu-icon span {
+  width: 25px;
+  height: 3px;
+  background: var(--red);
+  margin: 3px 0;
+}
+
+.nav-links {
+  display: flex;
+  gap: 17px;
+}
+.nav-links a {
+  font-weight: 500;
+  transition: color 0.3s;
+  padding-top: 5px;
+}
+.nav-links a:hover {
+  color: var(--red);
+}
 
 .btn-auth,
 .btn-logout {
@@ -115,64 +131,21 @@ a {
 .btn-auth:hover,
 .btn-logout:hover {
   background: var(--dark-red) !important;
-  
 }
 .btn-logout {
   background: var(--red);
   font-family: inherit;
 }
 
-/* Контейнер для кнопок авторизации в мобильном меню */
 .auth-buttons {
   display: flex;
   gap: 10px;
   justify-content: center;
 }
 
-/* Адаптивность для мобильных устройств */
-@media (max-width: 768px) {
-  .nav-links {
-    flex-direction: column;
-    width: 100%;
-    text-align: center;
-    gap: 15px;
-    padding: 20px 0;
-  }
-  .nav-links .btn-auth,
-  .nav-links .btn-logout {
-    width: 60%;
-    margin: 0 auto;
-    padding: 10px !important;
-    font-size: 16px !important;
-  }
-  .auth-buttons {
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-  }
-  .logo-img {
-    height: 40px;
-  }
-}
-
-.menu-icon span {
-  width: 25px;
-  height: 3px;
-  background: var(--red);
-  margin: 3px 0;
-}
-.nav-links {
-  display: flex;
-  gap: 17px;
-  
-}
-.nav-links a {
-  font-weight: 500;
-  transition: color 0.3s;
-  padding-top: 5px;
-}
-
-/* Footer */
+/* ======================================================
+   FOOTER
+   ====================================================== */
 .footer {
   background: var(--dark);
   color: white;
@@ -204,25 +177,9 @@ a {
   border-top: 1px solid #444;
 }
 
-/* Адаптивность */
-@media (max-width: 768px) {
-  .menu-icon {
-    display: flex;
-  }
-  .nav-links {
-    display: none;
-    width: 100%;
-    flex-direction: column;
-    text-align: center;
-    gap: 15px;
-    margin-top: 20px;
-  }
-  .nav-links.active {
-    display: flex;
-  }
-}
-
-/* ===== ФОРМЫ И КАРТОЧКИ ===== */
+/* ======================================================
+   ФОРМЫ И КАРТОЧКИ
+   ====================================================== */
 .form-card {
   background: white;
   padding: 30px;
@@ -241,28 +198,68 @@ a {
   outline: none;
   border-color: var(--red);
 }
-.checkbox-label {
+
+.checkbox-wrapper {
   display: flex;
   align-items: center;
-  gap: 10px;
   margin: 15px 0;
-  font-size: 14px;
 }
+.checkbox-wrapper input {
+  width: auto;
+  margin: 0 10px 0 0;
+}
+.checkbox-wrapper label {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.checkbox-wrapper a {
+  color: var(--red);
+  text-decoration: underline;
+}
+
+.form-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+.form-footer .btn {
+  margin: 0;
+}
+.form-footer a {
+  color: var(--red);
+  text-decoration: none;
+}
+.form-footer a:hover {
+  text-decoration: underline;
+}
+
 .error-msg {
-  background: #ffe6e6;
-  color: #d32f2f;
+  background: #f8d7da;
+  color: #721c24;
   padding: 10px;
   border-radius: 8px;
   margin-bottom: 15px;
   text-align: center;
 }
 
-/* ===== ЛИЧНЫЙ КАБИНЕТ ===== */
+.success-msg {
+  background: #d4edda;
+  color: #155724;
+  padding: 12px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+/* ======================================================
+   ЛИЧНЫЙ КАБИНЕТ
+   ====================================================== */
 .cabinet-wrapper {
   max-width: 800px;
   margin: 0 auto;
 }
-
 .cabinet-card {
   background: white;
   border-radius: 20px;
@@ -270,7 +267,6 @@ a {
   box-shadow: 0 10px 30px rgba(0,0,0,0.1);
   margin-top: 20px;
 }
-
 .user-info .info-row {
   margin-bottom: 15px;
   font-size: 18px;
@@ -283,13 +279,11 @@ a {
   flex-direction: column;
   gap: 15px;
 }
-
 .edit-form h3 {
   font-size: 20px;
   margin-bottom: 10px;
   color: var(--red);
 }
-
 .edit-form input {
   width: 100%;
   padding: 12px 15px;
@@ -298,19 +292,16 @@ a {
   font-size: 16px;
   transition: all 0.3s;
 }
-
 .edit-form input:focus {
   outline: none;
   border-color: var(--red);
   box-shadow: 0 0 0 2px rgba(179, 27, 27, 0.1);
 }
-
 .edit-form .form-buttons {
   display: flex;
   gap: 15px;
   margin-top: 10px;
 }
-
 .edit-form .btn {
   padding: 12px 25px;
   font-size: 16px;
@@ -319,60 +310,43 @@ a {
   cursor: pointer;
   transition: 0.3s;
 }
-
 .edit-form .btn:hover {
   transform: translateY(-2px);
 }
-
 .edit-form .cancel-btn {
   background: #6c757d;
 }
-
 .edit-form .cancel-btn:hover {
   background: #5a6268;
 }
 
-/* Поля с кнопкой показа пароля */
 .password-wrapper {
   position: relative;
 }
-
 .password-wrapper input {
   padding-right: 45px;
 }
-
 .password-toggle {
   position: absolute;
   right: 12px;
   top: 50%;
   transform: translateY(-50%);
-  background: none;
-  border: none;
+  background: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 2px 8px;
   cursor: pointer;
-  font-size: 20px;
-  padding: 0;
+  font-size: 12px;
   color: #888;
 }
-
 .password-toggle:hover {
   color: var(--red);
+  background: #e0e0e0;
 }
 
-/* Сообщения об успехе/ошибке */
-.success-msg {
-  background: #d4edda;
-  color: #155724;
-  padding: 12px;
-  border-radius: 10px;
-  text-align: center;
-}
-
-.error-msg {
-  background: #f8d7da;
-  color: #721c24;
-}
-
-/* ===== АДМИН ПАНЕЛЬ ===== */
+/* ======================================================
+   АДМИН ПАНЕЛЬ
+   ====================================================== */
 .admin-tabs {
   display: flex;
   gap: 10px;
@@ -399,14 +373,17 @@ a {
   width: 100%;
   border-collapse: collapse;
 }
-.admin-table th, .admin-table td {
+.admin-table th,
+.admin-table td {
   border: 1px solid #ddd;
   padding: 10px;
   text-align: left;
+  white-space: nowrap;
 }
 .admin-table th {
   background: #f4f4f4;
 }
+
 .edit-modal {
   position: fixed;
   top: 50%;
@@ -419,16 +396,16 @@ a {
   z-index: 1000;
   width: 90%;
   max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
 }
-.edit-modal input, .edit-modal select {
+.edit-modal input,
+.edit-modal select {
   width: 100%;
   padding: 10px;
   margin: 10px 0;
 }
 
-
-
-/* ===== МОДАЛЬНОЕ ОКНО ===== */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -446,9 +423,10 @@ a {
   padding: 30px;
   border-radius: 15px;
   width: 90%;
-  max-width: 500px;
+  max-width: 600px;
 }
-.modal-content select, .modal-content input {
+.modal-content select,
+.modal-content input {
   width: 100%;
   padding: 10px;
   margin: 10px 0;
@@ -461,13 +439,15 @@ a {
   margin-top: 20px;
 }
 
-/* ===== ПОРТФОЛИО СЛАЙДЕР ===== */
+/* ======================================================
+   ПОРТФОЛИО / СЛАЙДЕР
+   ====================================================== */
 .slider-image-wrapper {
   padding: 10px;
 }
 .slider-image-wrapper img {
   width: 100%;
-  height: 450px;
+  height: 350px;
   object-fit: cover;
   border-radius: 15px;
   transition: transform 0.3s;
@@ -475,84 +455,87 @@ a {
 .slider-image-wrapper img:hover {
   transform: scale(1.02);
 }
-.slick-prev:before, .slick-next:before {
+.slick-prev:before,
+.slick-next:before {
   color: var(--red) !important;
   font-size: 30px !important;
 }
 
-
-
-
-/* Формы */
-.form-card {
-  background: white;
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+/* ======================================================
+   ПОЛЬЗОВАТЕЛЬСКОЕ СОГЛАШЕНИЕ
+   ====================================================== */
+.agreement-container {
+  padding: 40px 0;
+  max-width: 900px;
+  margin: 0 auto;
 }
-.form-card input {
-  width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 16px;
-}
-.form-card input:focus {
-  outline: none;
-  border-color: var(--red);
-}
-.checkbox-wrapper {
-  display: flex;
-  align-items: center;
-  margin: 15px 0;
-}
-.checkbox-wrapper input {
-  width: auto;
-  margin: 0 10px 0 0;
-}
-.checkbox-wrapper label {
-  margin: 0;
-  font-size: 14px;
-}
-.form-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  margin-top: 20px;
-}
-.form-footer .btn {
-  margin: 0;
-}
-.form-footer a {
+.agreement-container h1 {
+  margin-bottom: 30px;
   color: var(--red);
-  text-decoration: none;
 }
-.form-footer a:hover {
-  text-decoration: underline;
+.agreement-container h2 {
+  margin-top: 30px;
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+}
+.agreement-container p {
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+.agreement-container section {
+  margin-bottom: 30px;
+}
+.agreement-container .form-footer {
+  margin-top: 40px;
+  justify-content: center;
 }
 
 
+@media (max-width: 1024px) {
+  .slider-image-wrapper img {
+    height: 280px;
+  }
+}
 
-
-/* Адаптивность */
 @media (max-width: 768px) {
+  /* общие адаптивные правила */
   .container {
     padding: 0 15px;
   }
   .header .container {
     flex-wrap: wrap;
   }
+  .menu-icon {
+    display: flex;
+  }
   .nav-links {
-    flex-direction: column;
+    display: none;
     width: 100%;
+    flex-direction: column;
     text-align: center;
-    gap: 10px;
+    gap: 15px;
+    margin-top: 20px;
   }
-  .nav-links .btn {
-    display: inline-block;
+  .nav-links.active {
+    display: flex;
   }
+  .nav-links .btn-auth,
+  .nav-links .btn-logout {
+    width: 60%;
+    margin: 0 auto;
+    padding: 10px !important;
+    font-size: 16px !important;
+  }
+  .auth-buttons {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  .logo-img {
+    height: 40px;
+  }
+
+  /* формы */
   .form-footer {
     flex-direction: column;
     gap: 15px;
@@ -561,24 +544,60 @@ a {
   .form-footer a {
     text-align: center;
   }
+
+  /* личный кабинет */
+  .cabinet-wrapper > div {
+    justify-content: center !important;
+  }
+
+  /* админ-панель: таблицы */
+  .admin-table th,
+  .admin-table td {
+    white-space: normal;
+    word-break: break-word;
+  }
+
+  /* портфолио: уменьшаем высоту изображений */
+  .slider-image-wrapper img {
+    height: 200px;
+  }
+  .slick-prev:before,
+  .slick-next:before {
+    font-size: 24px !important;
+  }
+
+  /* контакты: карты */
+  .contacts-card iframe,
+  .contacts-card > div iframe,
+  [style*="min-width: 300px"] iframe {
+    height: 250px !important;
+  }
+
+  /* пользовательское соглашение */
+  .agreement-container {
+    padding: 20px 15px;
+  }
+  .agreement-container h1 {
+    font-size: 1.8rem;
+    text-align: center;
+  }
+  .agreement-container h2 {
+    font-size: 1.3rem;
+  }
+  .agreement-container p {
+    font-size: 0.95rem;
+  }
 }
 
-
-.password-toggle {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: #f0f0f0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 2px 8px;
-  cursor: pointer;
-  font-size: 12px;
-}
-.password-wrapper {
-  position: relative;
-}
-.edit-form input {
-  padding-right: 10px;
+@media (max-width: 480px) {
+  .cabinet-card {
+    padding: 20px;
+  }
+  .edit-form .form-buttons {
+    flex-direction: column;
+  }
+  .admin-tabs button {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
 }
