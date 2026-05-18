@@ -240,14 +240,35 @@ app.post('/api/admin/masters', auth, adminOnly, (req, res) => {
       res.json({ id: this.lastID });
     });
 });
-app.put('/api/admin/masters/:id', auth, adminOnly, (req, res) => {
+app.put('/api/admin/masters/:id', auth, adminOnly, async (req, res) => {
   const { name, category, description, schedule, salonId } = req.body;
-  db.run(`UPDATE masters SET name=?, category=?, description=?, schedule=?, salonId=? WHERE id=?`,
-    [name, category, description, schedule, salonId, req.params.id], (err) => {
-      if (err) return res.status(500).json({ error: 'Ошибка обновления' });
-      res.json({ message: 'Обновлено' });
-    });
+  if (!name || !category) {
+    return res.status(400).json({ error: 'Имя и категория обязательны' });
+  }
+  let scheduleValue = null;
+  if (schedule !== undefined) {
+    try {
+      scheduleValue = typeof schedule === 'string' ? schedule : JSON.stringify(schedule);
+      JSON.parse(scheduleValue);
+    } catch(e) {
+      return res.status(400).json({ error: 'Неверный формат графика' });
+    }
+  }
+  const query = `
+    UPDATE masters 
+    SET name=?, category=?, description=?, schedule=COALESCE(?, schedule), salonId=? 
+    WHERE id=?
+  `;
+  const params = [name, category, description || '', scheduleValue, salonId, req.params.id];
+  db.run(query, params, function(err) {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: 'Ошибка обновления' });
+    }
+    res.json({ message: 'Обновлено' });
+  });
 });
+
 app.delete('/api/admin/masters/:id', auth, adminOnly, (req, res) => {
   const masterId = req.params.id;
   db.run(`DELETE FROM appointments WHERE masterId = ?`, [masterId], (err) => {
@@ -475,5 +496,43 @@ app.delete('/api/admin/appointments/:id', auth, adminOnly, (req, res) => {
   });
 });
 
+app.post('/api/admin/masters/check-schedule-conflicts', auth, adminOnly, (req, res) => {
+  const { masterId, newSchedule } = req.body;
+  if (!masterId || !newSchedule) return res.status(400).json({ error: 'Не указаны мастер или график' });
+  try {
+    const scheduleObj = typeof newSchedule === 'string' ? JSON.parse(newSchedule) : newSchedule;
+    const workingDays = scheduleObj.days || [];
+    const { start, end } = scheduleObj.hours || { start: '10:00', end: '20:00' };
+    const startMinutes = parseInt(start.split(':')[0]) * 60 + parseInt(start.split(':')[1]);
+    const endMinutes = parseInt(end.split(':')[0]) * 60 + parseInt(end.split(':')[1]);
+    const dayMap = { 'Пн':1, 'Вт':2, 'Ср':3, 'Чт':4, 'Пт':5, 'Сб':6, 'Вс':0 };
+    const today = new Date().toISOString().split('T')[0];
+    db.all(`SELECT a.date, a.time, s.duration as duration 
+             FROM appointments a 
+             JOIN services s ON a.serviceId = s.id
+             WHERE a.masterId = ? AND a.date >= ? AND a.status != 'cancelled'`,
+             [masterId, today], (err, rows) => {
+      if (err) return res.status(500).json({ error: err.message });
+      const conflicts = [];
+      rows.forEach(row => {
+        const rowDate = new Date(row.date);
+        const dayName = ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'][rowDate.getDay()];
+        if (!workingDays.includes(dayName)) {
+          conflicts.push({ date: row.date, time: row.time, reason: 'нерабочий день' });
+          return;
+        }
+        const [h, m] = row.time.split(':').map(Number);
+        const timeMinutes = h * 60 + m;
+        const endTime = timeMinutes + (row.duration || 60);
+        if (timeMinutes < startMinutes || endTime > endMinutes) {
+          conflicts.push({ date: row.date, time: row.time, reason: 'вне рабочего времени' });
+        }
+      });
+      res.json({ conflicts });
+    });
+  } catch(e) {
+    res.status(400).json({ error: 'Неверный формат графика' });
+  }
+});
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

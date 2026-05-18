@@ -26,6 +26,7 @@ const ScheduleEditor = ({ master, onSave, onClose }) => {
   const handleSave = async () => {
     setLoading(true);
     try {
+      // Отправляем все поля мастера, включая обновленный график
       const payload = {
         name: master.name,
         category: master.category,
@@ -35,6 +36,7 @@ const ScheduleEditor = ({ master, onSave, onClose }) => {
       };
       await api.put(`/admin/masters/${master.id}`, payload);
       onSave(master.id, schedule);
+      onClose(); // закрываем модалку после успешного сохранения
     } catch (err) {
       console.error('Ошибка сохранения графика:', err.response?.data || err);
       alert('Ошибка: ' + (err.response?.data?.error || 'Не удалось сохранить график'));

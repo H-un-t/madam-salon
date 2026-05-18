@@ -121,10 +121,8 @@ const AdminPanel = () => {
     setEditingMaster(null);
   };
   const updateSchedule = async (id, schedule) => {
-    await api.put(`/admin/masters/${id}`, { schedule: JSON.stringify(schedule) });
-    fetchData();
+    await fetchData(); 
     setEditingSchedule(null);
-    triggerRefresh();
   };
   const saveAppointment = async (data) => {
     try {
@@ -226,19 +224,28 @@ const AdminPanel = () => {
     const [salonId, setSalonId] = useState(master.salonId || 1);
     const [salons, setSalons] = useState([]);
     useEffect(() => { api.get('/salons').then(res => setSalons(res.data)); }, []);
-    const handleSubmit = (e) => { e.preventDefault(); onSave(master.id, { name, category, description, salonId }); };
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        onSave(master.id, {
+        name,
+        category,
+        description,
+        salonId,
+        schedule: master.schedule // сохраняем существующий график
+        });
+    };
     return ( <div className="edit-modal"><h3>Редактировать мастера</h3><form onSubmit={handleSubmit}>
-      <input value={name} onChange={e => setName(e.target.value)} placeholder="Имя" required />
-      <select value={category} onChange={e => setCategory(e.target.value)}>
+        <input value={name} onChange={e => setName(e.target.value)} placeholder="Имя" required />
+        <select value={category} onChange={e => setCategory(e.target.value)}>
         <option value="hairdresser">Парикмахерские услуги</option>
         <option value="manicure">Ногтевой сервис</option>
         <option value="cosmetologist">Косметология</option>
-      </select>
-      <select value={salonId} onChange={e => setSalonId(Number(e.target.value))}>
+        </select>
+        <select value={salonId} onChange={e => setSalonId(Number(e.target.value))}>
         {salons.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
-      </select>
-      <input value={description} onChange={e => setDescription(e.target.value)} placeholder="Описание" />
-      <div className="modal-buttons"><button type="submit" className="btn">Сохранить</button><button type="button" onClick={onCancel} className="btn cancel-btn">Отмена</button></div>
+        </select>
+        <input value={description} onChange={e => setDescription(e.target.value)} placeholder="Описание" />
+        <div className="modal-buttons"><button type="submit" className="btn">Сохранить</button><button type="button" onClick={onCancel} className="btn cancel-btn">Отмена</button></div>
     </form></div> );
   };
 

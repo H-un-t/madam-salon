@@ -25,14 +25,18 @@ const Home = () => {
         <div style={{
           textAlign: 'center',
           color: 'white',
-          textShadow: '2px 2px 5px black',
           backgroundColor: 'rgba(0,0,0,0.4)',
           padding: '20px',
           borderRadius: '15px',
           backdropFilter: 'blur(3px)'
         }}>
-          <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', marginBottom: '10px' }}>
-            Салон красоты <span style={{ color: 'var(--red)' }}>Мадам</span>
+          <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', flexWrap: 'wrap' }}>
+            <span>Салон красоты</span>
+            <img 
+              src="/images/logo.png" 
+              alt="Мадам" 
+              style={{ height: '1.9em', width: 'auto', verticalAlign: 'middle', display: 'inline-block' }} 
+            />
           </h1>
           <p style={{ fontSize: 'clamp(1rem, 3vw, 1.2rem)' }}>Ваша красота — наша забота</p>
         </div>
@@ -98,7 +102,7 @@ const Home = () => {
             <img src="/images/hair.jpg" alt="Уход за волосами" style={{ width: '100%', height: '200px', objectFit: 'cover' }} />
             <div style={{ padding: '20px' }}>
               <h3>Уход за волосами</h3>
-              <p style={{ padding: '10px' }}>Стрижка, укладка, окрашивание, ламинирование </p>
+              <p style={{ padding: '10px' }}>Стрижка, укладка, окрашивание, милирование волос </p>
               <Link to="/portfolio#hairdresser" className="btn">Подробнее</Link>
             </div>
           </div>
@@ -128,7 +132,7 @@ const Home = () => {
             <img src="/images/cosmo.jpg" alt="Косметик" style={{ width: '100%', height: '200px', objectFit: 'cover' }} />
             <div style={{ padding: '20px' }}>
               <h3>Косметология</h3>
-              <p style={{ padding: '10px' }}>Комплексный уход, пилинг, уход за кожей</p>
+              <p style={{ padding: '10px' }}>Комплексный уход, пилинг, чистка лица</p>
               <Link to="/portfolio#cosmetologist" className="btn">Подробнее</Link>
             </div>
           </div>
@@ -146,7 +150,7 @@ const Home = () => {
             display: 'flex',
             flexWrap: 'wrap',
             gap: '40px',
-            alignItems: 'center',
+            alignItems: 'start',
             justifyContent: 'center'
           }}>
             <div style={{ flex: 1.2, minWidth: '280px' }}>

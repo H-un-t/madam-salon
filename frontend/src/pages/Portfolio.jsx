@@ -74,7 +74,7 @@ const Portfolio = () => {
         </div>
 
         <div id="manicure" style={{ marginBottom: '60px', scrollMarginTop: '80px' }}>
-          <h2 style={{ textAlign: 'center', marginBottom: '20px', color: 'var(--red)' }}>Работы мастера маникюра и педикюра</h2>
+          <h2 style={{ textAlign: 'center', marginBottom: '20px', color: 'var(--red)' }}>Работы мастера ногтевого сервиса</h2>
           <div className="portfolio-slider-wrapper">
             <Slider {...settings}>
               {manicureImages.map((img, idx) => (

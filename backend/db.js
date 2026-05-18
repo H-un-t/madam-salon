@@ -1,6 +1,8 @@
 const sqlite3 = require('sqlite3').verbose();
 const bcrypt = require('bcryptjs');
 
+
+
 const db = new sqlite3.Database('./salon.db');
 
 db.serialize(() => {
@@ -38,8 +40,7 @@ db.serialize(() => {
     category TEXT NOT NULL,
     description TEXT,
     schedule TEXT DEFAULT '{"days":[],"hours":{"start":"10:00","end":"20:00"}}',
-    salonId INTEGER DEFAULT 1,
-    FOREIGN KEY(salonId) REFERENCES salons(id)
+    salonId INTEGER DEFAULT 1
   )`);
 
   
@@ -75,14 +76,20 @@ db.serialize(() => {
   db.get(`SELECT COUNT(*) as count FROM services`, (err, row) => {
     if (row.count === 0) {
       const services = [
-        ['Стрижка женская', '1500 ₽', 'hairdresser', 60],
-        ['Стрижка мужская', '1000 ₽', 'hairdresser', 45],
-        ['Окрашивание', '3000 ₽', 'hairdresser', 120],
-        ['Маникюр классический', '1200 ₽', 'manicure', 90],
-        ['Педикюр', '2000 ₽', 'manicure', 90],
+        ['Стрижка женская', 'от 700 ₽', 'hairdresser', 60],
+        ['Стрижка мужская', '600 ₽', 'hairdresser', 30],
+        ['Укладка волос', 'от 1000 ₽', 'hairdresser', 30],
+        ['Окрашивание', 'от 2500 ₽', 'hairdresser', 120],
+        ['Милирование волос', 'от 3500 ₽', 'hairdresser', 180],
+        ['Химическая завивка', 'от 3000 ₽', 'hairdresser', 180],
+        ['Маникюр классический', '800 ₽', 'manicure', 60],
+        ['Покрытие гель-лаком', '800 ₽', 'manicure', 30],
+        ['Педикюр', 'от 1500 ₽', 'manicure', 90],
         ['Наращивание ногтей', '2500 ₽', 'manicure', 120],
         ['Чистка лица', '2500 ₽', 'cosmetologist', 60],
         ['Пилинг', '3000 ₽', 'cosmetologist', 60],
+        ['Окрашивание бровей и ресниц', 'от 3500 ₽', 'cosmetologist', 30],
+        ['Прокол ушей', '1500 ₽', 'cosmetologist', 30],
         ['SPA-уход', '3500 ₽', 'cosmetologist', 90]
       ];
       services.forEach(s => {
@@ -95,11 +102,15 @@ db.serialize(() => {
   db.get(`SELECT COUNT(*) as count FROM masters`, (err, row) => {
     if (row.count === 0) {
       const masters = [
-        ['Анна Кузнецова', 'hairdresser', 'Парикмахер-стилист, стаж 8 лет', JSON.stringify({ days: ['Пн', 'Ср', 'Пт'], hours: { start: '10:00', end: '20:00' } }), 1],
-        ['Мария Иванова', 'manicure', 'Мастер маникюра и педикюра, стаж 5 лет', JSON.stringify({ days: ['Вт', 'Чт', 'Сб'], hours: { start: '10:00', end: '20:00' } }), 1],
-        ['Елена Смирнова', 'cosmetologist', 'Косметолог-эстетист, стаж 6 лет', JSON.stringify({ days: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт'], hours: { start: '09:00', end: '19:00' } }), 2],
-        ['Дмитрий Петров', 'hairdresser', 'Барбер, стаж 4 года', JSON.stringify({ days: ['Вт', 'Чт', 'Сб', 'Вс'], hours: { start: '11:00', end: '21:00' } }), 2],
-        ['Ольга Сидорова', 'manicure', 'Мастер ногтевого сервиса, стаж 7 лет', JSON.stringify({ days: ['Пн', 'Ср', 'Пт', 'Сб'], hours: { start: '10:00', end: '19:00' } }), 1]
+        ['Евгения', 'hairdresser', 'Парикмахер-универсал, стаж 8 лет', JSON.stringify({ days: ['Пн', 'Ср', 'Пт'], hours: { start: '10:00', end: '20:00' } }), 1],
+        ['Наира', 'hairdresser', 'Парикмахер-универсал, стаж от 25 лет', JSON.stringify({ days: ['Вт', 'Чт', 'Сб'], hours: { start: '10:00', end: '20:00' } }), 1],
+        ['Елена', 'manicure', 'Мастер маникюра и педикюра, стаж 10 лет', JSON.stringify({ days: ['Вт', 'Чт', 'Сб'], hours: { start: '10:00', end: '20:00' } }), 1],
+        ['Наталья', 'manicure', 'Мастер маникюра и педикюра, стаж 20 лет', JSON.stringify({ days: ['Пн', 'Ср', 'Пт'], hours: { start: '10:00', end: '20:00' } }), 1],
+        ['Наталья', 'cosmetologist', 'Косметолог-эстетист, стаж 16 лет', JSON.stringify({ days: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт'], hours: { start: '10:00', end: '20:00' } }), 1],
+        ['Евгения', 'hairdresser', 'Парикмахер-универсал, стаж 20 лет', JSON.stringify({ days: ['Пн', 'Ср', 'Пт'], hours: { start: '10:00', end: '20:00' } }), 2],
+        ['Татьяна', 'hairdresser', 'Парикмахер-универсал, стаж 16 лет', JSON.stringify({ days: ['Вт', 'Чт', 'Сб'], hours: { start: '10:00', end: '20:00' } }), 2],
+        ['Виктория', 'manicure', 'Мастер ногтевого сервиса, стаж 7 лет', JSON.stringify({ days: ['Пн', 'Ср', 'Пт', 'Сб'], hours: { start: '10:00', end: '20:00' } }), 2],
+        ['Юлиана', 'cosmetologist', 'Косметолог-эстетист, стаж 18 лет', JSON.stringify({ days: ['Ср', 'Пт', 'Вс'], hours: { start: '10:00', end: '20:00' } }), 2]
       ];
       masters.forEach(m => {
         db.run(`INSERT INTO masters (name, category, description, schedule, salonId) VALUES (?, ?, ?, ?, ?)`, m);
