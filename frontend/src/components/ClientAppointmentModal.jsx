@@ -136,8 +136,9 @@ const ClientAppointmentModal = ({ isOpen, onClose, userId }) => {
             <option value="">Выберите услугу</option>
             {filteredServices.map(s => <option key={s.id} value={s.id}>{s.name} - {s.price} ({s.duration || 60} мин)</option>)}
           </select>
-
+          <option value="">Выберите дату</option>
           <input type="date" value={form.date} onChange={e => setForm({...form, date: e.target.value, time: ''})} required />
+          
 
           {loadingSlots && <div>Загрузка свободных слотов...</div>}
           {freeSlots.length > 0 && !loadingSlots && (

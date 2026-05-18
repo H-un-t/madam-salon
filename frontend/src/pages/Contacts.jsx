@@ -18,13 +18,10 @@ const Contacts = () => {
     }
   ];
 
-  // Функция генерации URL Яндекс.Карты для iframe
   const getYandexMapSrc = (lat, lon, zoom) => {
-    // Используем API Яндекс.Карт с меткой
     return `https://yandex.ru/map-widget/v1/?ll=${lon},${lat}&z=${zoom}&pt=${lon},${lat},pm2rdm`;
   };
 
-  // Ссылка для построения маршрута на Яндекс.Картах
   const getRouteLink = (lat, lon) => {
     return `https://yandex.ru/maps/?rtext=~${lat},${lon}&rtt=auto`;
   };
@@ -49,7 +46,6 @@ const Contacts = () => {
               transition: 'transform 0.3s',
             }}>
               <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                {/* Информационный блок */}
                 <div style={{
                   flex: '1',
                   minWidth: '250px',
@@ -79,7 +75,6 @@ const Contacts = () => {
                   </div>
                 </div>
                 
-                {/* Яндекс.Карта */}
                 <div style={{ flex: '1.5', minWidth: '300px', height: '350px' }}>
                   <iframe
                     title={`map-${idx}`}
@@ -96,7 +91,6 @@ const Contacts = () => {
           ))}
         </div>
 
-        {/* Дополнительный блок с режимом работы */}
         <div style={{
           marginTop: '50px',
           background: 'white',
