@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../api';
+import { buildScheduleDates, getScheduleEndDate } from './scheduleDates';
 
 const ScheduleView = ({ masters, services, users, onRefresh, onOpenModal, refreshTrigger }) => {
   const [salons, setSalons] = useState([]);
@@ -36,10 +37,7 @@ const ScheduleView = ({ masters, services, users, onRefresh, onOpenModal, refres
     if (!selectedMaster) return;
     const fetchSchedule = async () => {
       setLoading(true);
-      const start = new Date(startDate);
-      const end = new Date(start);
-      end.setDate(end.getDate() + weeks * 7 - 1);
-      const endDateStr = end.toISOString().split('T')[0];
+      const endDateStr = getScheduleEndDate(startDate, weeks);
       try {
         const res = await api.get(`/appointments/schedule?masterId=${selectedMaster}&startDate=${startDate}&endDate=${endDateStr}`);
         const grouped = {};
@@ -68,14 +66,7 @@ const ScheduleView = ({ masters, services, users, onRefresh, onOpenModal, refres
   }, [selectedMaster, startDate, weeks, masters, refreshTrigger]);
 
   const getDates = () => {
-    const dates = [];
-    const start = new Date(startDate);
-    for (let i = 0; i < weeks * 7; i++) {
-      const d = new Date(start);
-      d.setDate(start.getDate() + i);
-      dates.push(d.toISOString().split('T')[0]);
-    }
-    return dates;
+    return buildScheduleDates(startDate, weeks);
   };
 
   const getTimeSlots = () => {

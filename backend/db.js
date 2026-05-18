@@ -1,9 +1,10 @@
 const sqlite3 = require('sqlite3').verbose();
 const bcrypt = require('bcryptjs');
+const { resolveSqlitePath } = require('./dbPath');
 
 
 
-const db = new sqlite3.Database('./salon.db');
+const db = new sqlite3.Database(resolveSqlitePath());
 
 db.serialize(() => {
   
