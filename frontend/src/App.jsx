@@ -19,17 +19,19 @@ function App() {
     <>
       <ScrollToTop />
       <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/services" element={<Services />} />
-        <Route path="/portfolio" element={<Portfolio />} />
-        <Route path="/contacts" element={<Contacts />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/cabinet" element={<ProtectedRoute><Cabinet /></ProtectedRoute>} />
-        <Route path="/admin" element={<ProtectedRoute><AdminRoute><AdminPanel /></AdminRoute></ProtectedRoute>} />
-        <Route path="/agreement" element={<Agreement />} />
-      </Routes>
+      <main className="app-main">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/portfolio" element={<Portfolio />} />
+          <Route path="/contacts" element={<Contacts />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/cabinet" element={<ProtectedRoute><Cabinet /></ProtectedRoute>} />
+          <Route path="/admin" element={<ProtectedRoute><AdminRoute><AdminPanel /></AdminRoute></ProtectedRoute>} />
+          <Route path="/agreement" element={<Agreement />} />
+        </Routes>
+      </main>
       <Footer />
     </>
   );

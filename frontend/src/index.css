@@ -16,6 +16,16 @@ body {
   color: #1a1a1a;
 }
 
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-main {
+  flex: 1;
+}
+
 :root {
   --red: #b31b1b;
   --dark-red: #8b0000;
@@ -570,4 +580,3 @@ a {
     font-size: 0.9rem;
   }
 }
-
